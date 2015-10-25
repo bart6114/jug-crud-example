@@ -4,7 +4,7 @@ source("app/db.R")
 
 
 library(jug)
-library(jsonlite)
+library(ggplot2)
 
 jug() %>%
   # READ MW - FULL LIST
@@ -13,6 +13,22 @@ jug() %>%
     res$json(db_list())
     
   }) %>%
+  # READ MW - PLOT
+  get("/items/plot", function(req, res, err){
+    db_plot<-
+      db_list() %>%
+      ggplot() +
+      aes(x="", fill=checked) + 
+      geom_bar(position="stack") +
+      coord_flip() +
+      xlab("") +
+      scale_y_continuous(breaks=seq(0,100,1)) +
+      theme(legend.position="none")
+    
+    res$plot(db_plot, height=100, width=300)
+    
+  }) %>%
+  
   # READ MW - SPECIFIC items
   get("/items/(?<description>.*)", function(req, res, err){
     
@@ -36,5 +52,4 @@ jug() %>%
   serve_static_files(root_path="public/") %>%
   simple_error_handler() %>%
   serve_it(verbose=TRUE)
-  
-  
+

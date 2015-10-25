@@ -12,10 +12,13 @@
     <link href="css/todo.css" rel="stylesheet" />
     <title></title>
   </head>
-  <body ng-controller="TodoCtrl">
+  <body ng-controller="TodoCtrl" ng-init="init()">
   <div class="container">
   <h2>TODO</h2>
   <span>{{remaining()}} of {{items.length}} remaining</span>
+  <div class="row">
+    <div class="col-md-6">
+  
   <ul class="list-unstyled">
     <li ng-repeat="item in items">
 		<input type="checkbox" ng-model="item.checked" ng-click="toggleItem(item)"/> 
@@ -27,6 +30,11 @@
   <input type="text" ng-model="newItemDescription" size="30" placeholder="add new todo here" /> 
   <input class="btn-primary" type="submit" value="add" />
   </form>
+  </div>
+  <div class="col-md-6">
+  <img ng-src="data:image/png;base64,{{itemPlot}}"/>
+  </div>
+  </div>
   </div>
   </body>
 </html>
